@@ -1,7 +1,38 @@
 <?php
+require 'db.php';
 date_default_timezone_set('America/Los_Angeles');
 $today = date("Y-m-d");
-?>
+
+//prepopulate the database fetch such that the fresh page will display 
+//current entered day's data (if exists)
+$db = db();
+
+// Get record for selected day
+$stmt = $db->prepare("SELECT * FROM daily_records WHERE day = :day");
+$stmt->bindValue(':day', $today);
+$record = $stmt->execute()->fetchArray(SQLITE3_ASSOC);
+
+$labels = [
+    "ate_protein" => "Ate protein at both meals",
+    "hit_veg" => "Hit veg at least once",
+    "no_unplanned_snacks" => "No unplanned snacks",
+    "workout_12min" => "Did 12-min workout",
+    "ran" => "Ran (if a run day)",
+    "dinner_by_830" => "Finished dinner by 8:30 PM"
+];
+
+// If no record exists, default to blanks
+//if (!$record) {
+//    $record = [
+//        "ate_protein" => 0,
+//        "hit_veg" => 0,
+//        "no_unplanned_snacks" => 0,
+//        "workout_12min" => 0,
+//        "ran" => 0,
+//        "dinner_by_830" => 0
+//    ];
+//}
+//?>
 
 <!DOCTYPE html>
 <html>
@@ -79,24 +110,17 @@ function loadCharts() {
     <form id="form">
         <input type="hidden" name="day" value="<?= $today ?>">
 
-        <?php
-        $labels = [
-            "ate_protein" => "Ate protein at both meals",
-            "hit_veg" => "Hit veg at least once",
-            "no_unplanned_snacks" => "No unplanned snacks",
-            "workout_12min" => "Did 12-min workout",
-            "ran" => "Ran (if a run day)",
-            "dinner_by_830" => "Finished dinner by 8:30 PM"
-        ];
-        foreach ($labels as $key => $label) {
-            echo "<div class='checkbox-row'>
+        <?php foreach ($labels as $key => $label): ?>
+            <div class="checkbox-row">
                 <label>
-                  <input type='checkbox' name='$key' value='1'>
-                  $label
+                    <input type="checkbox"
+                           name="<?= $key ?>"
+                           value="1"
+                           <?= ($record && $record[$key]) ? "checked" : "" ?>>
+                    <?= $label ?>
                 </label>
-            </div>";
-        }
-        ?>
+            </div>
+        <?php endforeach; ?>
     </form>
 
     <button class="save-btn" onclick="saveData()">Save</button>
