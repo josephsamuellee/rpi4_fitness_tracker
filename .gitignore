@@ -1,0 +1,9 @@
+# Ignore SQLite runtime DB
+fitness.db
+
+# Editor/OS cruft
+*.swp
+*.swo
+*.log
+.DS_Store
+
