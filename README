@@ -1,0 +1,27 @@
+# Project Name
+RPI4 fitness tracker - old school website edition
+
+## Overview
+This provides a mobile friendly website that records basic records of how one's 
+fitness journey is going. It generates a sqlite3 database that can be used to
+generate graphics and other data visualizations for historical trending.
+
+### Key Features
+* should only require apache2, php8.2, and [data visualization]
+
+## Quick Start 
+Pull all files
+Have apt install apache2, php8.2
+php init_db.php
+Then, load website in mobile app at http://[server location]/fitness_tracker/
+
+## Project Purpose
+Software should be free for all people.
+For those who are able, then they should contribute back.
+This is primarily a way for me to test out vibe coding, which is a recent trend
+in 2025 as I write this. Most code is written with chatgpt5.1-instant. Any
+important prompts, I will push either as commit messages or this README
+
+## Inspiration
+SB - "with the proper prompt, I can oneshot projects in the low thousands SLOC"
+on 30NOV2025
